@@ -14,7 +14,7 @@
 #             reduction in question volume in Wave 9 vs Wave 7.
 #
 # Dataset: Fully synthetic — generated to mirror real study structure.
-# Author:  Portfolio Project
+# Author:  Konstantina Gianniou
 # =============================================================================
 
 
