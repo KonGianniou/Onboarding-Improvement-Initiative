@@ -1,20 +1,25 @@
 # Onboarding-Improvement-Initiative
 📚 New Hire Onboarding Quiz — Pre/Post Intervention Study
-> ⚠️ \*\*Synthetic Dataset Notice\*\*
-> All data files in this project are \*\*fully synthetic\*\*, generated to mirror the structure
-> and statistical properties of a real onboarding study. No real employee, cohort, or
-> operational data has been used. All counts, IDs, and dates are fabricated and carry
-> no real-world interpretation. This project is intended solely to demonstrate analytical
-> and R programming skills in a portfolio context.
+
+This is a DMAIC project I ran while working as a quality analyst, looking at a pattern that kept coming up in onboarding support: new hires ask a lot of the same questions in their first few weeks, and most of it is predictable. The project tests whether a short pre-boarding quiz, built around the highest-volume topics, actually cuts down how many questions people ask once they're in the role.
+
+The data here has been anonymized — topic names, wave numbers, and counts have been altered so nothing ties back to the original cohort or company. The structure and the findings reflect the real analysis.
+
 ---
-🧪 Study Design & Motivation
-The Problem
+
+## The Problem
 When new hires join a company, they typically ask a large volume of questions during their
 onboarding period — many of which are repetitive and predictable. If those recurring questions
 could be anticipated and answered proactively, it would save time for both new hires and the
 teams supporting them, and accelerate their time to productivity.
-The Experiment
-The study follows a natural pre/post intervention design across two onboarding cohorts:
+
+## The setup
+
+Two onboarding cohorts, Wave 7 and Wave 9 (keeping the wave numbering style from the original program). Wave 7 is the baseline — new hires ask questions freely, everything gets logged and tagged by topic, no quiz exists yet. I ran chi-squared tests on that baseline to find which topics were generating disproportionately more questions than expected. Those became the 8 topics covered in the new onboarding quiz.
+
+Wave 9 hires took that quiz before starting. I logged their questions against the same topic taxonomy once they were in role, then compared Wave 7 vs Wave 9 volumes topic by topic to see if quiz-covered topics dropped more than the ones the quiz didn't touch.
+
+
 ```
 Wave 7 (Baseline)
 │
