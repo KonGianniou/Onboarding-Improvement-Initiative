@@ -1,18 +1,40 @@
 DMAIC project, Quality Analyst role.
 
-> **Disclaimer:** This was a real project, but the dataset here (counts, waves, stats) is synthetic — built to match the structure of the original analysis without exposing company data. Methodology and general findings reflect the real project; exact numbers don't.
+> **Disclaimer:** This was a real project, but the dataset here (counts, waves, stats) is synthetic — built to match the structure of the original analysis without exposing company data. Methodology and general findings reflect the real project, exact numbers don't.
 
 ## Background
 
-New hires generate a spike of support questions in the weeks right after training ("nesting"). Each question costs coach time and slows the new hire down. I wanted to know whether these questions were concentrated in a few topics or spread evenly — and if concentrated, whether a short pre-nesting quiz could reduce them.
+New hires generate a spike of support questions in the weeks right after training ("nesting"). Each question costs coach time and slows the new hire down. I wanted to know whether these questions were concentrated in a few topics or spread evenly and if concentrated, whether a short pre-nesting quiz could reduce them.
 
 ## Method (DMAIC)
 
-- **Define:** find the topics driving the most nesting questions, build an intervention, measure if it works.
-- **Measure:** logged 529 questions (Wave 7, baseline) and 224 questions (Wave 9, post-intervention) across 20 topics. Top 5 Wave 7 topics (Property details, Finance, Availability, Commercial, Compliance) made up 58% of all questions — enough concentration to justify a targeted fix.
-- **Analyze:** chi-square test on the full topic × wave table, plus per-topic two-proportion tests with Benjamini–Hochberg correction (needed since 20 topics were tested at once).
-- **Improve:** built a short quiz covering the top-volume topics, distributed before Wave 9 started nesting.
-- **Control:** compared Wave 7 vs Wave 9 with the same taxonomy and process to see what actually moved.
+- **Define**
+**The problem**: nobody knew whether nesting questions were random noise or concentrated in specific topics. If concentrated, that's a fixable training gap. If spread evenly, no single intervention would move the needle, and the smarter move would be a broader content review instead.
+**Goal**: find the topics driving the most questions, build a cheap intervention, and measure whether it actually worked — not just assume it did because it felt right.
+
+- **Measure:**
+Logged 529 questions (Wave 7, baseline) and 224 questions (Wave 9, post-intervention) across 20 topics, using the same taxonomy both times so the comparison would hold up. Top 5 Wave 7 topics — Property details, Finance, Availability, Commercial, Compliance — made up 58% of all questions. That's a real Pareto pattern, not an even spread, which is what justified building a targeted quiz instead of reworking all 20 topics of training content.
+
+- **Analyze:** 
+Ran a chi-square test on the full topic × wave table to check if the overall mix changed at all, then per-topic two-proportion tests with Benjamini–Hochberg correction, since testing 20 topics at once means some will look "significant" purely by chance if you don't correct for it.
+
+- **Improve:** 
+Built a short quiz covering the top-volume topics and distributed it before Wave 9 started nesting. One deliberate design choice: I made the quiz *hard*. Not hard for the sake of it but hard on purpose, so most new hires would get several questions wrong the first time through. The logic is the same as why flashcards work better than re-reading notes: getting something wrong and then seeing the correct answer creates a much stronger memory than passively skimming content you already vaguely recognize. An easy quiz gets rubber-stamped and forgotten but a quiz that makes you sweat a little gets remembered. I wanted new hires to fail on the quiz, not fail three weeks later in front of a customer.
+
+- **Control:** 
+Compared Wave 7 vs Wave 9 with the same process and topic taxonomy to see what actually moved, and built the significance testing in from the start so "it worked" would mean something more than a gut feeling.
+
+## Business Impact
+
+The real cost of nesting questions isn't the question itself, it's what it represents: a coach pulled off other work, a new hire sitting idle waiting on an answer, and a slower ramp to full productivity. At Wave 7's volume, that's 529 individual interruptions spread across one cohort. Even a partial reduction in the highest-volume topics compounds across every future cohort that goes through the same training, which is exactly why this was worth building a proper before/after measurement for rather than shipping the quiz and moving on.
+
+Two things came out of this that matter beyond the stats:
+
+- **One confirmed, fixable gap** (Extranet account) that the current training doesn't cover at all, a direct, low-effort addition to the next quiz version.
+- **One strong signal, not yet proof** (Availability) that the hard-quiz approach may be working exactly as designed, on the exact topic it was built for but I'm not willing to tell leadership "problem solved" off a result that doesn't survive correction for multiple comparisons. That's the difference between a quality analyst reporting a real effect and one reporting a number that happened to move.
+
+The bigger payoff, if Availability's effect replicates with more data, isn't really about this one cohort, it's evidence that a short, deliberately difficult, low-cost quiz can meaningfully cut nesting support load before it happens, which is a much cheaper lever than adding coach headcount or extending the nesting period itself.
+
 
 ## Results
 
@@ -26,8 +48,6 @@ Per-topic, after BH correction for 20 comparisons, only one topic held up:
 | Availability | −5.6 | 0.45× | 0.119 | No |
 | Property details | −0.8 | 0.95× | 0.929 | No |
 | Finance | −2.6 | 0.81× | 0.725 | No |
-
-Full per-topic table in [`Wave7_Wave9_topic_tests.csv`](Wave7_Wave9_topic_tests.csv).
 
 **Extranet account** rose from 4.4% to 11.2% of all questions and wasn't a quiz topic — a genuine new gap, not something the quiz caused.
 
@@ -60,5 +80,4 @@ Before/after comparison, not randomized — can't fully rule out other factors c
 
 - `README.md` — this file
 - `images/` — charts
-- `Wave7_Wave9_topic_descriptive_results.csv`, `Wave7_Wave9_topic_tests.csv`, `Wave7_Wave9_change_confidence_intervals.csv` — analysis outputs
 - Analysis in R (`tidyverse`, `broom`, `scales`, `patchwork`, `ggrepel`)
